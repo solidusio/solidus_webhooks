@@ -1,7 +1,112 @@
 SolidusWebhooks
 ===============
 
-Introduction goes here.
+Provides comprehensive Webhook support for Solidus, with a simple and powerful way to register them and route payloads to appropriate actions, either synchronous or delayed.
+
+Usage
+-----
+
+A Webhook receiver is just a callable and can be registered in the Solidus configuration as follows:
+
+```ruby
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
+  order = Spree::Order.find_by!(number: payload[:order])
+  shipment = order.shipments.find_by!(number: payload[:shipment])
+  shipment.update!(tracking: payload[:tracking])
+}
+```
+
+This will enable sending `POST` requests to `/webhooks/tracking-number` with a JSON payload like this:
+
+```json
+{
+  "order": "R1234567890",
+  "shipment": "S1234567890",
+  "tracking": "T123-456-789"
+}
+```
+
+### Handlers requirements
+
+The only requirement on handlers is for them to respond to `#call` and accept a payload.
+
+Example:
+
+```ruby
+class TrackingNumberHandler
+  def call(payload)
+    order = Spree::Order.find_by!(number: payload[:order])
+    shipment = order.shipments.find_by!(number: payload[:shipment])
+    shipment.update!(tracking: payload[:tracking])
+  end
+end
+
+SolidusWebhooks.config.register_webhook_handler :tracking_number, TrackingNumberHandler
+```
+
+
+### Making the handler asynchronous
+
+To make a handler asynchronous just make its implementation internally call your preferred job handler (e.g. ActiveJob). In most cases you'll want to filter, prepare, and validate the payload for the job of your choice, to avoid ingesting and invalid input.
+
+Example:
+
+```ruby
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
+  UpdateTrackingNumberJob.perform_later(
+    order: payload.fetch(:order)
+    shipment: payload.fetch(:shipment)
+    tracking: payload.fetch(:tracking)
+  )
+}
+```
+
+
+### Payload routing
+
+If your handler can receive different kind of payloads the most common technique is to route them to appropriate sub-handlers (that can be an ActiveJob class or a service class).
+
+```ruby
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
+  case payload[:tracking]
+  when /^FOO(\d+-)+/
+    UpdateFooTrackingNumberJob.perform_later(
+      order: payload.fetch(:order)
+      shipment: payload.fetch(:shipment)
+      tracking: payload.fetch(:tracking)
+    )
+  when /^BAR(\d+-)+/
+    UpdateBarTrackingNumberJob.perform_later(
+      order: payload.fetch(:order)
+      shipment: payload.fetch(:shipment)
+      tracking: payload.fetch(:tracking)
+    )
+  else raise "unknown tracking service"
+  end
+}
+```
+
+### Restricting Permissions
+
+It's good practice not to use admin-user tokens for webhooks, instead you should define a permission set tied to the webhook handler you're providing. Use the standard Solidus permission-sets to do that.
+
+Example:
+
+```ruby
+module ReceiveTrackingWebhookPermission < Spree::PermissionSets::Base
+  def activate!
+    can :receive, Spree::Webhook do |webhook|
+      webhook.id == :tracking_number
+    end
+  end
+end
+
+Spree::RoleConfiguration.configure do |config|
+  config.assign_permissions :foo_tracking_service, %w[
+    ReceiveTrackingWebhookPermission
+  ]
+end
+```
 
 Installation
 ------------
