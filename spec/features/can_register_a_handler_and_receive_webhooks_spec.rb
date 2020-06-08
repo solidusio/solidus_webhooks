@@ -10,8 +10,8 @@ RSpec.feature "Can register a handler and receive Webhooks", type: :request do
   let(:foo_payloads) { [] }
   let(:bar_payloads) { [] }
 
-  let(:foo_handler) { ->(payload) { foo_payloads << payload } }
-  let(:bar_handler) { ->(payload) { bar_payloads << payload } }
+  let(:foo_handler) { ->(payload, current_api_user) { foo_payloads << payload } }
+  let(:bar_handler) { ->(payload, current_api_user) { bar_payloads << payload } }
 
   let(:token) { create(:admin_user, spree_api_key: "123").spree_api_key }
   let(:token_without_permission) { create(:user, spree_api_key: "456").spree_api_key }

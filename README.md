@@ -9,7 +9,7 @@ Usage
 A Webhook receiver is just a callable and can be registered in the Solidus configuration as follows:
 
 ```ruby
-SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> (payload, current_api_user) {
   order = Spree::Order.find_by!(number: payload[:order])
   shipment = order.shipments.find_by!(number: payload[:shipment])
   shipment.update!(tracking: payload[:tracking])
@@ -28,13 +28,14 @@ This will enable sending `POST` requests to `/webhooks/tracking-number` with a J
 
 ### Handlers requirements
 
-The only requirement on handlers is for them to respond to `#call` and accept a payload.
+The only requirement on handlers is for them to respond to `#call`, accepting a
+payload and current_api_user.
 
 Example:
 
 ```ruby
 class TrackingNumberHandler
-  def call(payload)
+  def call(payload, current_api_user)
     order = Spree::Order.find_by!(number: payload[:order])
     shipment = order.shipments.find_by!(number: payload[:shipment])
     shipment.update!(tracking: payload[:tracking])
@@ -52,7 +53,7 @@ To make a handler asynchronous just make its implementation internally call your
 Example:
 
 ```ruby
-SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> (payload, current_api_user) {
   UpdateTrackingNumberJob.perform_later(
     order: payload.fetch(:order)
     shipment: payload.fetch(:shipment)
@@ -67,7 +68,7 @@ SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
 If your handler can receive different kind of payloads the most common technique is to route them to appropriate sub-handlers (that can be an ActiveJob class or a service class).
 
 ```ruby
-SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload {
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> (payload, current_api_user) {
   case payload[:tracking]
   when /^FOO(\d+-)+/
     UpdateFooTrackingNumberJob.perform_later(

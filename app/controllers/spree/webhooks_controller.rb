@@ -7,7 +7,7 @@ class Spree::WebhooksController < Spree::Api::BaseController
 
     authorize! :receive, webhook
 
-    webhook.receive(payload)
+    webhook.receive(payload, current_api_user)
 
     head :ok
   end

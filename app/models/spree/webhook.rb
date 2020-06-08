@@ -4,8 +4,8 @@ class Spree::Webhook
 
   WebhookNotFound = Class.new(StandardError)
 
-  def receive(payload)
-    handler.call(payload)
+  def receive(payload, current_api_user)
+    handler.call(payload, current_api_user)
   end
 
   def self.find(id)
