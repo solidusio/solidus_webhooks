@@ -4,10 +4,11 @@ class Spree::WebhooksController < Spree::Api::BaseController
   def receive
     webhook = Spree::Webhook.find(params[:id])
     payload = request.request_parameters["webhook"]
+    user = current_api_user
 
     authorize! :receive, webhook
 
-    webhook.receive(payload)
+    webhook.receive(payload, user)
 
     head :ok
   end

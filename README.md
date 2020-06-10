@@ -108,6 +108,20 @@ Spree::RoleConfiguration.configure do |config|
 end
 ```
 
+### Accessing the API User
+
+If you need to access the API user that is making the call to the webhook, you can just accept an additional argument in the callable handler.
+
+Example:
+
+```ruby
+SolidusWebhooks.config.register_webhook_handler :tracking_number, -> payload, user {
+  Rails.logger.info "Received payload from user #{user.email}: #{payload.to_json}"
+  # …
+}
+```
+
+
 Installation
 ------------
 
