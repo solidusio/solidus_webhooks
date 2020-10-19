@@ -19,14 +19,4 @@ module SolidusWebhooks
       @handlers[id.to_sym]
     end
   end
-
-  def self.config
-    @config
-  end
-
-  def self.reset_config!
-    @config = Configuration.new
-  end
-
-  reset_config! # initialize the extension
 end

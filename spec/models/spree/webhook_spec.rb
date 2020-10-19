@@ -6,7 +6,7 @@ RSpec.describe Spree::Webhook do
 
     it 'can find a registered handler' do
       expect(described_class.find(:foo)).to be_a(described_class)
-      expect{described_class.find(:bar)}.to raise_error(SolidusWebhooks::WebhookNotFound)
+      expect{ described_class.find(:bar) }.to raise_error(SolidusWebhooks::WebhookNotFound)
     end
   end
 end
