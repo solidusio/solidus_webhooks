@@ -33,8 +33,8 @@ The only requirement on handlers is for them to respond to `#call` and accept a 
 Example:
 
 ```ruby
-class TrackingNumberHandler
-  def call(payload)
+module TrackingNumberHandler
+  def self.call(payload)
     order = Spree::Order.find_by!(number: payload[:order])
     shipment = order.shipments.find_by!(number: payload[:shipment])
     shipment.update!(tracking: payload[:tracking])
