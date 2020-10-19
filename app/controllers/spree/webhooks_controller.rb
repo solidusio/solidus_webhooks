@@ -1,5 +1,5 @@
 class Spree::WebhooksController < Spree::Api::BaseController
-  rescue_from(Spree::Webhook::WebhookNotFound) { head :not_found }
+  rescue_from(SolidusWebhooks::WebhookNotFound) { head :not_found }
 
   def receive
     webhook = Spree::Webhook.find(params[:id])

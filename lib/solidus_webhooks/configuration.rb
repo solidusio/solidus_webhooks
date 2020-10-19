@@ -1,3 +1,5 @@
+require 'solidus_webhooks/errors'
+
 module SolidusWebhooks
   class Configuration
     def initialize
@@ -6,7 +8,7 @@ module SolidusWebhooks
 
     def register_webhook_handler(id, handler)
       unless handler.respond_to? :call
-        raise Spree::Webhook::InvalidHandler,
+        raise SolidusWebhooks::InvalidHandler,
           "Please provide a handler that responds to #call, got: #{handler.inspect}"
       end
 
