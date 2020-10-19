@@ -2,7 +2,6 @@ require 'spec_helper'
 
 RSpec.feature "Can register a handler and receive Webhooks", type: :request do
   background do
-    SolidusWebhooks.reset_config!
     SolidusWebhooks.config.register_webhook_handler :proc, proc_handler
     SolidusWebhooks.config.register_webhook_handler :method, method_handler
     SolidusWebhooks.config.register_webhook_handler :user, user_handler
