@@ -2,4 +2,4 @@ bump:
   recurse: false
   file: 'lib/solidus_webhooks/version.rb'
   message: Bump SolidusWebhooks to %{version}
-  tag: true
+  tag: false
