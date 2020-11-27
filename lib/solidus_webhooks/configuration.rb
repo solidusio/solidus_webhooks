@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'solidus_webhooks/errors'
 
 module SolidusWebhooks
@@ -17,6 +19,22 @@ module SolidusWebhooks
 
     def find_webhook_handler(id)
       @handlers[id.to_sym]
+    end
+  end
+
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    alias config configuration
+
+    def reset_config!
+      @configuration = nil
+    end
+
+    def configure
+      yield configuration
     end
   end
 end

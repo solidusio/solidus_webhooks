@@ -3,6 +3,8 @@
 [![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_webhooks.svg?style=shield)](https://circleci.com/gh/solidusio-contrib/solidus_webhooks)
 [![codecov](https://codecov.io/gh/solidusio-contrib/solidus_webhooks/branch/master/graph/badge.svg)](https://codecov.io/gh/solidusio-contrib/solidus_webhooks)
 
+<!-- Explain what your extension does. -->
+
 ## Installation
 
 Add solidus_webhooks to your Gemfile:
@@ -18,6 +20,8 @@ bin/rails generate solidus_webhooks:install
 ```
 
 ## Usage
+
+<!-- Explain how to use your extension once it's been installed. -->
 
 A Webhook receiver is just a callable and can be registered in the Solidus configuration as follows:
 
@@ -188,17 +192,7 @@ git commit -m "Update the changelog"
 
 ### Releasing new versions
 
-Your new extension version can be released using `gem-release` like this:
-
-```shell
-bundle exec gem bump -v 1.6.0
-bin/rake changelog
-git add CHANGELOG.md
-git commit --amend --no-edit
-gem tag
-git push --tags
-bundle exec gem release
-```
+Please refer to the dedicated [page](https://github.com/solidusio/solidus/wiki/How-to-release-extensions) on Solidus wiki.
 
 ## License
 
