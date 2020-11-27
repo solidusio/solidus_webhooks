@@ -16,14 +16,14 @@ RSpec.feature "Can register a handler and receive Webhooks", type: :request do
   let(:method_and_user_payloads) { [] }
 
   let(:proc_handler) { ->(payload) { proc_payloads << payload } }
-  let(:method_handler) { Struct.new(:payloads) do
-    def call(payload) payloads << payload end
-  end.new(method_payloads) }
+  let(:method_handler) {
+    Struct.new(:payloads) { def call(payload) payloads << payload end }.new(method_payloads)
+  }
   let(:user_handler) { ->(payload, user) { user_payloads << [payload, user] } }
   let(:splat_handler) { ->(*args) { splat_payloads << args } }
-  let(:method_and_user_handler) { Struct.new(:payloads) do
-    def call(payload, user) payloads << payload end
-  end.new(method_and_user_payloads) }
+  let(:method_and_user_handler) {
+    Struct.new(:payloads) { def call(payload, user) payloads << [payload, user] end }.new(method_and_user_payloads)
+  }
 
   let(:authorized_user) { create(:admin_user, spree_api_key: "123") }
   let(:authorized_token) { authorized_user.spree_api_key }
@@ -41,7 +41,7 @@ RSpec.feature "Can register a handler and receive Webhooks", type: :request do
     post "/webhooks/method?token=#{authorized_token}", as: :json, params: { c: 789 }
     expect(response).to have_http_status(:ok)
 
-    post "/webhooks/user?token=#{authorized_token}", as: :json, params: { d: 012 }
+    post "/webhooks/user?token=#{authorized_token}", as: :json, params: { d: 12 }
     expect(response).to have_http_status(:ok)
 
     post "/webhooks/splat?token=#{authorized_token}", as: :json, params: { e: 345 }
@@ -52,9 +52,9 @@ RSpec.feature "Can register a handler and receive Webhooks", type: :request do
 
     expect(proc_payloads).to eq([{ 'a' => 123 }, { 'b' => 456 }])
     expect(method_payloads).to eq([{ 'c' => 789 }])
-    expect(user_payloads).to eq([[{ 'd' => 012 }, authorized_user]])
+    expect(user_payloads).to eq([[{ 'd' => 12 }, authorized_user]])
     expect(splat_payloads).to eq([[{ 'e' => 345 }, authorized_user]])
-    expect(method_and_user_payloads).to eq([{ 'f' => 678 }])
+    expect(method_and_user_payloads).to eq([{ 'f' => 678 }, authorized_user])
   end
 
   scenario "receives a bad handler id" do

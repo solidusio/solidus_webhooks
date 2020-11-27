@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 require:
   - solidus_dev_support/rubocop
 
@@ -9,3 +7,22 @@ AllCops:
     - sandbox/**/*
     - spec/dummy/**/*
     - vendor/bundle/**/*
+
+
+# This guys are troublemakers
+RSpec/FactoryBot/CreateList:
+  Enabled: false
+RSpec/Rails/HttpStatus:
+  Enabled: false
+
+# Deviations from the standard
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
