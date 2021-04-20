@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.3.0](https://github.com/solidusio-contrib/solidus_webhooks/tree/v0.3.0) (2021-04-20)
+
+[Full Changelog](https://github.com/solidusio-contrib/solidus_webhooks/compare/v0.3.0...v0.3.0)
+
+**Closed issues:**
+
+- Prepare Solidus Webhooks for Solidus 3.0 [\#8](https://github.com/solidusio-contrib/solidus_webhooks/issues/8)
+
+**Merged pull requests:**
+
+- Allow Solidus 3 [\#10](https://github.com/solidusio-contrib/solidus_webhooks/pull/10) ([kennyadsl](https://github.com/kennyadsl))
+- Reconcile master and v0.3.0 [\#7](https://github.com/solidusio-contrib/solidus_webhooks/pull/7) ([elia](https://github.com/elia))
+- Bump solidus\_support to ~\> 0.6 [\#6](https://github.com/solidusio-contrib/solidus_webhooks/pull/6) ([peterberkenbosch](https://github.com/peterberkenbosch))
+
 ## [v0.3.0](https://github.com/solidusio-contrib/solidus_webhooks/tree/v0.3.0) (2020-10-20)
 
 [Full Changelog](https://github.com/solidusio-contrib/solidus_webhooks/compare/v0.2.0...v0.3.0)
