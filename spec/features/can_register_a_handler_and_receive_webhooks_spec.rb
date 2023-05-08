@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.feature "Can register a handler and receive Webhooks", type: :request do
   background do
     SolidusWebhooks.config.register_webhook_handler :proc, proc_handler
@@ -72,3 +73,4 @@ RSpec.feature "Can register a handler and receive Webhooks", type: :request do
     expect(response).to have_http_status(:unauthorized)
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
