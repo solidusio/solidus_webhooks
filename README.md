@@ -1,7 +1,7 @@
 # Solidus Webhooks
 
 [![CircleCI](https://circleci.com/gh/solidusio/solidus_webhooks.svg?style=shield)](https://circleci.com/gh/solidusio/solidus_webhooks)
-[![codecov](https://codecov.io/gh/solidusio/solidus_webhooks/branch/master/graph/badge.svg)](https://codecov.io/gh/solidusio/solidus_webhooks)
+[![codecov](https://codecov.io/gh/solidusio/solidus_webhooks/branch/main/graph/badge.svg)](https://codecov.io/gh/solidusio/solidus_webhooks)
 
 <!-- Explain what your extension does. -->
 
