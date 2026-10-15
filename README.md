@@ -1,6 +1,6 @@
 # Solidus Webhooks
 
-[![CircleCI](https://circleci.com/gh/solidusio/solidus_webhooks.svg?style=shield)](https://circleci.com/gh/solidusio/solidus_webhooks)
+[![Test](https://github.com/solidusio/solidus_webhooks/actions/workflows/test.yml/badge.svg)](https://github.com/solidusio/solidus_webhooks/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/solidusio/solidus_webhooks/branch/main/graph/badge.svg)](https://codecov.io/gh/solidusio/solidus_webhooks)
 
 <!-- Explain what your extension does. -->
