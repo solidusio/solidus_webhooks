@@ -18,6 +18,9 @@ end
 # Provides basic authentication functionality for testing parts of your engine
 gem 'solidus_auth_devise'
 
+# Rails 8.0 passes options that json 3 rejects. Remove once Rails 8.0.6 is out.
+gem 'json', '< 3'
+
 case ENV['DB']
 when 'mysql'
   gem 'mysql2'
